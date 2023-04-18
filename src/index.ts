@@ -10,9 +10,9 @@ const interval = 60 * 1000;
 
 const server = http.createServer((req: IncomingMessage, res: ServerResponse) : void => {
     api.parseSite()
-    const jsonString = fs.readFileSync('./news/post-14005.json', 'utf-8');
+    /*const jsonString = fs.readFileSync('./news/post-14005.json', 'utf-8');
     const data = JSON.parse(jsonString);
-    api.parsePost(data);
+    api.parsePost(data);*/
     res.end('hi!')
 });
 

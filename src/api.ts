@@ -15,7 +15,7 @@ export interface post {
 export function parseSite(): void {
     request(url, function (error, response, body) {
         if (!error) {
-            const files: string[] = fs.readdirSync('/news/');
+            const files: string[] = fs.readdirSync('./news');
 
             const $ = cheerio.load(body);
             $(".post").each((i, elem) => {
