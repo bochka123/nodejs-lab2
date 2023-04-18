@@ -8,16 +8,28 @@ const PORT = 3000;
 
 const interval = 60 * 1000;
 
-const server = http.createServer((req: IncomingMessage, res: ServerResponse) : void => {
+let promiseArray: Promise<unknown>[] = [];
+
+const server = http.createServer(async (req: IncomingMessage, res: ServerResponse) : Promise<void> => {
     api.parseSite()
-    /*const jsonString = fs.readFileSync('./news/post-14005.json', 'utf-8');
-    const data = JSON.parse(jsonString);
-    api.parsePost(data);*/
-    res.end('hi!')
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    await fs.readdir('./news', (err, dir)=>{
+        dir.map((element) => {
+            const promise = new Promise((resolve, reject) => {
+                fs.readFile(`./news/${element}`, (err, data) => {
+                    const str = Buffer.from(data).toString();
+
+                    res.write(str);
+                    resolve('');
+                })
+            });
+            promiseArray = [...promiseArray, promise];
+        })
+        Promise.all(promiseArray).then(() => {
+            res.end();
+        });
+    });
 });
-
-
-
 
 server.listen(PORT);
 
