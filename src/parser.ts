@@ -19,7 +19,7 @@ export class Parser {
                             const pos1: number = Number(a?.indexOf("href")) + 6;
                             const pos2 = Number(a?.indexOf("title")) - 2;
                             const url = a?.slice(pos1, pos2);
-                            let news: IPost = {
+                            const news: IPost = {
                                 title: post.find('.entry-title').first().text(),
                                 postDate: post.find('.entry-date').text(),
                                 content: post.find('.entry-content').children().eq(1).text(),

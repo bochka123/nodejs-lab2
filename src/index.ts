@@ -8,7 +8,7 @@ const interval = 60 * 1000;
 
 let promiseArray: Promise<unknown>[] = [];
 
-let parser = new Parser();
+const parser = new Parser();
 
 const server = http.createServer((req: IncomingMessage, res: ServerResponse) : void => {
     parser.parseSite()
@@ -21,6 +21,7 @@ const server = http.createServer((req: IncomingMessage, res: ServerResponse) : v
 
                     res.write(`${str.toString()}\n`);
                     resolve('');
+                    reject('Error');
                 })
             });
             promiseArray = [...promiseArray, promise];
