@@ -1,6 +1,6 @@
 import http, { IncomingMessage, ServerResponse } from 'http';
 import * as fs from 'fs';
-import { Parser } from "./parser";
+import { Parser } from './parser';
 
 const PORT = 3000;
 
