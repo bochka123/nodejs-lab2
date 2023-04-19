@@ -1,8 +1,6 @@
-import http, {IncomingMessage, ServerResponse} from 'http';
-import request from 'request';
-import cheerio from 'cheerio'; 
+import http, { IncomingMessage, ServerResponse } from 'http';
 import * as fs from 'fs';
-import * as api from './api';
+import { Parser } from "./parser";
 
 const PORT = 3000;
 
@@ -10,16 +8,18 @@ const interval = 60 * 1000;
 
 let promiseArray: Promise<unknown>[] = [];
 
-const server = http.createServer(async (req: IncomingMessage, res: ServerResponse) : Promise<void> => {
-    api.parseSite()
+let parser = new Parser();
+
+const server = http.createServer((req: IncomingMessage, res: ServerResponse) : void => {
+    parser.parseSite()
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    await fs.readdir('./news', (err, dir)=>{
+    fs.readdir('./news', (err, dir)=>{
         dir.map((element) => {
             const promise = new Promise((resolve, reject) => {
                 fs.readFile(`./news/${element}`, (err, data) => {
-                    const str = Buffer.from(data).toString();
+                    const str = Buffer.from(data);
 
-                    res.write(str);
+                    res.write(`${str.toString()}\n`);
                     resolve('');
                 })
             });
@@ -33,4 +33,4 @@ const server = http.createServer(async (req: IncomingMessage, res: ServerRespons
 
 server.listen(PORT);
 
-setInterval(api.parseSite, interval);
+setInterval(parser.parseSite, interval);
