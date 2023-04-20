@@ -42,13 +42,15 @@ export class Parser {
         });
     }
 
-    parsePost(post: IPost) {
+    parsePost(post: IPost): string[] {
+        let paragraphs_arr: string[] = [];
         request(String(post.url), function (error, response, body) {
             const $ = cheerio.load(body);
             const paragraphs = $('.entry-content p').slice(1, -3);
             paragraphs.each(function () {
-                console.log($(this).text());
+                paragraphs_arr.push($(this).text())
             })
         });
+        return paragraphs_arr;
     }
 }
