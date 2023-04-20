@@ -5,7 +5,7 @@ import { IPost } from './IPost';
 
 export class Parser {
 
-    private readonly url = 'https://uareview.com/';
+    readonly url = 'https://uareview.com/';
 
     parseSite(): void {
         request(this.url, function (error, response, body) {
